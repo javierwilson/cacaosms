@@ -31,19 +31,6 @@ admin.site.register(Pais, PaisAdmin)
 
 
 
-class ContactoAdmin(admin.ModelAdmin):
-    list_display = ['nombre','telefono','pais','contactotipo','grupo',]
-    list_filter = ('pais','contactotipo','grupo',)
-    search_fields = ['nombre','telefono',]
-    
-    list_per_page = 100
-    
-
-admin.site.register(Contacto, ContactoAdmin)
-
-
-
-
 class GrupoAdmin(admin.ModelAdmin):
     list_display = ['nombre',]
     list_filter = ('nombre',)
@@ -76,19 +63,6 @@ admin.site.register(Bitacora, BitacoraAdmin)
 
 
 
-class MensajeAdmin(admin.ModelAdmin):
-    list_display = ['nombre','mensaje',]
-    
-    
-    
-    
-    
-
-admin.site.register(Mensaje, MensajeAdmin)
-
-
-
-
 class RespuestaAdmin(admin.ModelAdmin):
     list_display = ['nombre','mensaje',]
     
@@ -115,11 +89,42 @@ admin.site.register(Trivia, TriviaAdmin)
 
 
 
+admin.site.register(Estado)
+
+
+
+
+class ContactoAdmin(admin.ModelAdmin):
+    list_display = ['nombre','telefono','pais','contactotipo','grupo',]
+    list_filter = ('pais','contactotipo','grupo',)
+    search_fields = ['nombre','telefono',]
+    
+    list_per_page = 100
+    
+
+admin.site.register(Contacto, ContactoAdmin)
+
+
+
+
+class MensajeAdmin(admin.ModelAdmin):
+    list_display = ['nombre','mensaje',]
+    
+    
+    
+    
+    
+
+admin.site.register(Mensaje, MensajeAdmin)
+
+
+
+
 class EnviosAdmin(admin.ModelAdmin):
     list_display = ['de','texto','mensaje',]
     list_filter = ('de',)
     
-    
+    readonly_fields = ('finalizada','envios_programados','envios_realizados',)
     
     
 
