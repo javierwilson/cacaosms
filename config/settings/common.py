@@ -47,6 +47,7 @@ LOCAL_APPS = (
     # custom users app
     'cacaosms.users.apps.UsersConfig',
     # Your stuff: custom apps go here
+    'cacaosms',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

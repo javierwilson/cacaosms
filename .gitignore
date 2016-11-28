@@ -106,6 +106,7 @@ node_modules/
 
 # virtual environments
 .env
+env
 
 # User-uploaded media
 cacaosms/media/
