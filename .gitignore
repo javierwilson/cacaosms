@@ -153,3 +153,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# javier stuff
+env.sh

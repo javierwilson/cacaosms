@@ -264,3 +264,6 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+SMS_ACCOUNT_SID = env('SMS_ACCOUNT_SID')
+SMS_AUTH_TOKEN = env('SMS_AUTH_TOKEN')
+SMS_PHONE_NUMBER = env('SMS_PHONE_NUMBER')
