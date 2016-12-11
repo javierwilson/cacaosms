@@ -10,7 +10,7 @@ Production Configurations
 """
 from __future__ import absolute_import, unicode_literals
 
-from boto.s3.connection import OrdinaryCallingFormat
+#from boto.s3.connection import OrdinaryCallingFormat
 from django.utils import six
 
 
@@ -39,10 +39,12 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool(
 SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
     'DJANGO_SECURE_CONTENT_TYPE_NOSNIFF', default=True)
 SECURE_BROWSER_XSS_FILTER = True
-SESSION_COOKIE_SECURE = True
+#SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_HTTPONLY = True
 SECURE_SSL_REDIRECT = env.bool('DJANGO_SECURE_SSL_REDIRECT', default=True)
-CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = True
 X_FRAME_OPTIONS = 'DENY'
 
@@ -87,18 +89,18 @@ INSTALLED_APPS += (
 # stored files.
 
 #  See:http://stackoverflow.com/questions/10390244/
-from storages.backends.s3boto import S3BotoStorage
-StaticRootS3BotoStorage = lambda: S3BotoStorage(location='static')
-MediaRootS3BotoStorage = lambda: S3BotoStorage(location='media')
-DEFAULT_FILE_STORAGE = 'config.settings.production.MediaRootS3BotoStorage'
+#from storages.backends.s3boto import S3BotoStorage
+#StaticRootS3BotoStorage = lambda: S3BotoStorage(location='static')
+#MediaRootS3BotoStorage = lambda: S3BotoStorage(location='media')
+#DEFAULT_FILE_STORAGE = 'config.settings.production.MediaRootS3BotoStorage'
 
-MEDIA_URL = 'https://s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
+#MEDIA_URL = 'https://s3.amazonaws.com/%s/media/' % AWS_STORAGE_BUCKET_NAME
 
 # Static Assets
 # ------------------------
 
-STATIC_URL = 'https://s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
-STATICFILES_STORAGE = 'config.settings.production.StaticRootS3BotoStorage'
+#STATIC_URL = 'https://s3.amazonaws.com/%s/static/' % AWS_STORAGE_BUCKET_NAME
+#STATICFILES_STORAGE = 'config.settings.production.StaticRootS3BotoStorage'
 # See: https://github.com/antonagestam/collectfast
 # For Django 1.7+, 'collectfast' should come before
 # 'django.contrib.staticfiles'
@@ -113,12 +115,12 @@ EMAIL_SUBJECT_PREFIX = env('DJANGO_EMAIL_SUBJECT_PREFIX', default='[Cacao SMS] '
 SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
 # Anymail with Mailgun
-INSTALLED_APPS += ("anymail", )
-ANYMAIL = {
-    "MAILGUN_API_KEY": env('DJANGO_MAILGUN_API_KEY'),
-    "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN')
-}
-EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
+#INSTALLED_APPS += ("anymail", )
+#ANYMAIL = {
+#    "MAILGUN_API_KEY": env('DJANGO_MAILGUN_API_KEY'),
+#    "MAILGUN_SENDER_DOMAIN": env('MAILGUN_SENDER_DOMAIN')
+#}
+#EMAIL_BACKEND = "anymail.backends.mailgun.MailgunBackend"
 
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
