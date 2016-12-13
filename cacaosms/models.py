@@ -150,6 +150,11 @@ class Contacto(models.Model):
     def __str__(self):
         return "%s %s " % (self.nombre, self.telefono, )
     
+    def _get_full_number(self):
+        "Returns the person's full phone number."
+        return '+%s%s' % (self.pais.codigo, self.telefono)
+    full_number = property(_get_full_number)
+
 
 
 @python_2_unicode_compatible
@@ -197,5 +202,13 @@ class Envios(models.Model):
     def __str__(self):
         return "%s " % (self.de, )
     
+    def _get_message(self):
+        "Returns the message"
+        if self.texto:
+            return self.texto
+        if self.mensaje:
+            return self.mensaje.mensaje
+        return '+%s%s' % (self.pais.codigo, self.telefono)
+    message = property(_get_message)
 
 
