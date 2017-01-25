@@ -41,12 +41,13 @@ django-redis==4.6.0
 redis>=2.10.5
 
 
-celery==3.1.24
+#celery==3.1.24
 
 
 
 
 # Your custom requirements go here
 twilio==5.6.0
-#celery==4.0.1
-#django-celery-beat==1.0.0
+celery==4.0.2
+django-celery-beat==1.0.0
+django-celery-results==1.0.1

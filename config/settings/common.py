@@ -250,13 +250,13 @@ AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
 ########## CELERY
 INSTALLED_APPS += ('cacaosms.taskapp.celery.CeleryConfig',)
-# if you are not using the django database broker (e.g. rabbitmq, redis, memcached), you can remove the next line.
-INSTALLED_APPS += ('kombu.transport.django',)
-BROKER_URL = env('CELERY_BROKER_URL', default='django://')
-if BROKER_URL == 'django://':
+INSTALLED_APPS += ('django_celery_results',)
+INSTALLED_APPS += ('django_celery_beat',)
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='django://')
+if CELERY_BROKER_URL == 'django://':
     CELERY_RESULT_BACKEND = 'redis://'
 else:
-    CELERY_RESULT_BACKEND = BROKER_URL
+    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 ########## END CELERY
 
 

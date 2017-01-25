@@ -156,3 +156,4 @@ ENV/
 
 # javier stuff
 env.sh
+*.pid
