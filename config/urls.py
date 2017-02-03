@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
+    url(r'^', include('cacaosms.urls', namespace='cacaosms')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

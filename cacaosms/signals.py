@@ -9,24 +9,25 @@ from cacaosms.models import Envios, Contacto
 def send_sms_to_queue(sender, instance, **kwargs):
 
     task = None
+    para_list = filter(None, (instance.para, instance.para_contacto, instance.para_contactotipo, instance.para_pais, instance.para_grupo))
+    para = ', '.join([str(x) for x in para_list])
 
     if instance.para_contacto:
         contact = instance.para_contacto
         print "%s: %s" % (contact.full_number, instance.message)
-        print send_sms.name
-        task = send_sms.delay(contact.full_number, instance.message)
+        task = send_sms.delay(contact.full_number, instance.message, from_str=instance.de, to_str=para, id_str=instance.pk)
 
     if instance.para_pais:
         contacts = Contacto.objects.filter(pais=instance.para_pais)
         for contact in contacts:
             print "%s: %s" % (contact.full_number, instance.message)
-            task = send_sms.delay(contact.full_number, instance.message)
+            task = send_sms.delay(contact.full_number, instance.message, from_str=instance.de, to_str=para, id_str=instance.pk)
 
     if instance.para_grupo:
         contacts = Contacto.objects.filter(grupo=instance.para_grupo)
         for contact in contacts:
             print "%s: %s" % (contact.full_number, instance.message)
-            task = send_sms.delay(contact.full_number, instance.message)
+            task = send_sms.delay(contact.full_number, instance.message, from_str=instance.de, to_str=para, id_str=instance.pk)
 
     if task:
         print task.status

@@ -51,8 +51,8 @@ admin.site.register(Grupo, GrupoAdmin)
 
 
 class BitacoraAdmin(admin.ModelAdmin):
-    list_display = ['de','para','mensaje','fecha',]
-    list_filter = ('de','para','fecha',)
+    list_display = ['de','para','mensaje','fecha_envio',]
+    list_filter = ('de','para','fecha_envio',)
 
 
 
