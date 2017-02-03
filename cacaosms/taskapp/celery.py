@@ -39,7 +39,7 @@ def add(x, y):
 from twilio.rest import TwilioRestClient
 
 @app.task
-def send_sms(self, phone_number_to, message):
+def send_sms(phone_number_to, message):
     account_sid = settings.SMS_ACCOUNT_SID
     auth_token = settings.SMS_AUTH_TOKEN
     phone_number_from = settings.SMS_PHONE_NUMBER
