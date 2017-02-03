@@ -218,7 +218,7 @@ class Envios(models.Model):
             return self.texto
         if self.mensaje:
             return self.mensaje.mensaje
-        return '+%s%s' % (self.pais.codigo, self.telefono)
+        return '%s' % (self.de)
     message = property(_get_message)
 
 
