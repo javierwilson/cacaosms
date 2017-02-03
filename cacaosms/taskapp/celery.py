@@ -52,6 +52,7 @@ def send_sms(phone_number_to, message, from_str=None, to_str=None, id_str=None):
     else:
         entrada = Bitacora(de_numero=phone_number_from, para_numero=phone_number_to, mensaje=message)
     entrada.save()
+    status_callback = "%s/%s" % (settings.SMS_STATUS_CALLBACK, entrada.id)
 
     client = TwilioRestClient(account_sid, auth_token)
     message = client.messages.create(to=phone_number_to, from_=phone_number_from, body=message, status_callback=status_callback)
