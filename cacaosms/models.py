@@ -89,7 +89,7 @@ class Bitacora(models.Model):
 @python_2_unicode_compatible
 class Respuesta(models.Model):
 
-    nombre = models.CharField(max_length=160)
+    nombre = models.CharField(max_length=160, unique=True)
     mensaje = models.CharField(max_length=160, verbose_name=u"Mensaje de respuesta")
 
 
@@ -102,6 +102,9 @@ class Respuesta(models.Model):
     def __str__(self):
         return "%s " % (self.nombre, )
 
+    def save(self, force_insert=False, force_update=False):
+        self.nombre = self.nombre.lower()
+        super(Respuesta, self).save(force_insert, force_update)
 
 
 @python_2_unicode_compatible

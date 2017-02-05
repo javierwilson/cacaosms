@@ -8,7 +8,8 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-from .models import Bitacora
+from cacaosms.taskapp.celery import send_sms
+from .models import Bitacora, Respuesta
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -23,3 +24,27 @@ class StatusCallBack(DetailView):
         self.object.resultado = request.POST.get('MessageStatus')
         self.object.save()
         return HttpResponse('')
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ReplyWebHook(View):
+
+    def post(self, request, *args, **kwargs):
+        ret = ''
+        respuesta = None
+        print request.POST
+        message = request.POST.get('Body')
+        para = request.POST.get('From')
+        if not message or not para:
+            ret = "No message or from"
+            return HttpResponse(ret)
+        try:
+            respuesta = Respuesta.objects.get(nombre=message.lower())
+        except Respuesta.DoesNotExist:
+            print "%s does not exist" % (message,)
+            ret = "%s does not exist" % (message,)
+            return HttpResponse(ret)
+        print "%s: %s" % (para, respuesta.mensaje)
+        task = send_sms.delay(para, respuesta.mensaje)
+        if task:
+            print task.status
+        return HttpResponse(ret)
