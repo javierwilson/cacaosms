@@ -1,4 +1,7 @@
 from django.contrib import admin
+
+from import_export.admin import ImportExportModelAdmin
+
 from .models import *
 
 
@@ -94,7 +97,7 @@ admin.site.register(Estado)
 
 
 
-class ContactoAdmin(admin.ModelAdmin):
+class ContactoAdmin(ImportExportModelAdmin):
     list_display = ['nombre','telefono','pais','contactotipo','grupo',]
     list_filter = ('pais','contactotipo','grupo',)
     search_fields = ['nombre','telefono',]
