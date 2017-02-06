@@ -89,8 +89,10 @@ class Bitacora(models.Model):
 @python_2_unicode_compatible
 class Respuesta(models.Model):
 
-    nombre = models.CharField(max_length=160, unique=True)
+    nombre = models.CharField(max_length=32, unique=True)
     mensaje = models.CharField(max_length=160, verbose_name=u"Mensaje de respuesta")
+    descripcion = models.CharField(max_length=200, null=True, blank=True)
+    is_trivia = models.BooleanField()
 
 
     class Meta:
@@ -108,20 +110,36 @@ class Respuesta(models.Model):
 
 
 @python_2_unicode_compatible
-class Trivia(models.Model):
+class TriviaEstado(models.Model):
 
-    nombre = models.CharField(max_length=160)
-
+    fecha = models.DateTimeField(auto_now_add=True)
+    de = models.CharField(max_length=32, unique=True, verbose_name=u"Número de teléfono")
+    estado = models.ForeignKey('Trivia')
 
     class Meta:
-        ordering = ['nombre',]
+        ordering = ['fecha', 'de']
+        verbose_name = _(u'Trivia Estado')
+        verbose_name_plural = _(u'Trivia Estado')
+
+    def __str__(self):
+        return "%s %s" % (self.fecha, self.de, )
+
+
+@python_2_unicode_compatible
+class Trivia(models.Model):
+
+    respuesta = models.ForeignKey(Respuesta)
+    nombre = models.CharField(max_length=32, verbose_name=u"Mensaje recibido")
+    mensaje = models.CharField(max_length=160, verbose_name=u"Mensaje de respuesta")
+    super = models.ForeignKey('self', null=True, blank=True)
+
+    class Meta:
+        ordering = ['respuesta','nombre',]
         verbose_name = _(u'Trivia')
         verbose_name_plural = _(u'Trivia')
 
-
     def __str__(self):
         return "%s " % (self.nombre, )
-
 
 
 @python_2_unicode_compatible
