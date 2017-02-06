@@ -56,10 +56,7 @@ admin.site.register(Grupo, GrupoAdmin)
 class BitacoraAdmin(admin.ModelAdmin):
     list_display = ['de','para','mensaje','fecha_envio',]
     list_filter = ('de','para','fecha_envio',)
-
-
-
-
+    readonly_fields = ('fecha_envio',)
 
 admin.site.register(Bitacora, BitacoraAdmin)
 
@@ -136,3 +133,9 @@ admin.site.register(Envios, EnviosAdmin)
 
 
 
+class PermisosAdmin(admin.ModelAdmin):
+    list_display = ['nombre','user',]
+
+
+
+admin.site.register(Permisos, PermisosAdmin)
