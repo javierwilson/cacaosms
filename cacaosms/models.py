@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 #from django.utils.translation import ugettext as _
@@ -218,7 +220,7 @@ class Envios(models.Model):
     texto = models.CharField(max_length=160, null=True, blank=True, verbose_name=u"Mensaje personalizado")
     mensaje = models.ForeignKey(Mensaje, null=True, blank=True, verbose_name=u"Mensaje")
     finalizada = models.DateTimeField(null=True, blank=True, verbose_name=u"Fecha real finalizada")
-    programada = models.DateTimeField(verbose_name=u"Fecha programada")
+    programada = models.DateTimeField(verbose_name=u"Fecha programada", default=datetime.now)
     envios_programados = models.IntegerField(null=True, blank=True)
     envios_realizados = models.IntegerField(null=True, blank=True)
     estado = models.CharField(max_length=1, choices=(('N', 'Nuevo'), ('P', 'Programado'), ('S', 'Enviado'), ('I', 'En Proceso'), ('E', 'Error')))
