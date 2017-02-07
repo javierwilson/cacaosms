@@ -1,1 +1,20 @@
 {% extends "base.html" %}
+
+{% block content %}
+<h1>Menú</h1>
+<ul>
+
+<li><i class="fa fa-paper-plane" aria-hidden="true">
+<a href="/admin/cacaosms/envios/add">Envio de mensajes</a></i></li>
+
+<li><i class="fa fa-book" aria-hidden="true">
+<a href="/admin/cacaosms/bitacora/">Bitácora de envíos y reportes</a></i></li>
+
+<li><i class="fa fa-users" aria-hidden="true">
+Manejo de <a href="/admin/users/user/">usuarios</a>, <a href="/admin/cacaosms/permisos/">permisos</a> y <a href="/admin/cacaosms/grupo/">grupos</a></i></li>
+
+<li><i class="fa fa-bars" aria-hidden="true">
+<a href="/admin">Administración general</a></i></li>
+
+</ul>
+{% endblock content %}
