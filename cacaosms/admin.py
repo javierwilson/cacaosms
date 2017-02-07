@@ -22,11 +22,9 @@ class PaisAdmin(admin.ModelAdmin):
 
 
 
-    inlines = [
-
-        ContactoInline,
-
-    ]
+    #inlines = [
+    #    ContactoInline,
+    #]
 
 
 admin.site.register(Pais, PaisAdmin)
@@ -42,9 +40,7 @@ class GrupoAdmin(admin.ModelAdmin):
 
 
     inlines = [
-
         ContactoInline,
-
     ]
 
 
@@ -95,7 +91,7 @@ admin.site.register(Estado)
 
 
 class ContactoAdmin(ImportExportModelAdmin):
-    list_display = ['nombre','telefono','pais','contactotipo','grupo',]
+    list_display = ['nombre','telefono','pais','contactotipo',]
     list_filter = ('pais','contactotipo','grupo',)
     search_fields = ['nombre','telefono',]
 
