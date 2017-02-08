@@ -249,7 +249,7 @@ class Envios(models.Model):
 class Permisos(models.Model):
 
     nombre = models.CharField(max_length=100, verbose_name=u"Nombre")
-    user = models.ForeignKey('users.User')
+    user = models.OneToOneField('users.User')
     pais = models.ManyToManyField(Pais, blank=True, verbose_name=u"Para todo un país")
     contactotipo = models.ManyToManyField(ContactoTipo, blank=True, verbose_name=u"Para todo un tipo de contacto")
     contacto = models.ManyToManyField(Contacto, blank=True, verbose_name=u"Para un número específico")
