@@ -135,3 +135,10 @@ class PermisosAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Permisos, PermisosAdmin)
+
+
+# SMS Configuration using django-solo
+
+from solo.admin import SingletonModelAdmin
+
+admin.site.register(SMSConfiguration, SingletonModelAdmin)

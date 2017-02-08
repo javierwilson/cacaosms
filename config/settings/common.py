@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = (
     'allauth.socialaccount',  # registration
     'import_export', # import / export from admin
     #'django_celery_beat', # django cron
+    'solo',
 )
 
 # Apps specific for this project go here.
