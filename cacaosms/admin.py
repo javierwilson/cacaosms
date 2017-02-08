@@ -77,15 +77,12 @@ admin.site.register(Respuesta, RespuestaAdmin)
 class TriviaAdmin(admin.ModelAdmin):
     list_display = ['nombre',]
 
-
-
-
-
-
 admin.site.register(Trivia, TriviaAdmin)
 
 
 
+
+admin.site.register(TriviaEstado)
 
 admin.site.register(Estado)
 

@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
 from cacaosms.taskapp.celery import send_sms
-from .models import Bitacora, Respuesta
+from .models import Bitacora, Respuesta, Trivia, TriviaEstado
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -31,20 +31,40 @@ class ReplyWebHook(View):
     def post(self, request, *args, **kwargs):
         ret = ''
         respuesta = None
+
         print request.POST
         message = request.POST.get('Body')
         para = request.POST.get('From')
         if not message or not para:
             ret = "No message or from"
             return HttpResponse(ret)
+
+        # Revisa si está en medio de un Trivia
         try:
-            respuesta = Respuesta.objects.get(nombre=message.lower())
-        except Respuesta.DoesNotExist:
-            print "%s does not exist" % (message,)
-            ret = "%s does not exist" % (message,)
-            return HttpResponse(ret)
+            trivia = TriviaEstado.objects.get(de=para)
+            respuesta = Trivia.objects.get(respuesta=trivia.respuesta, nombre=message.lower())
+            trivia.delete()
+
+        except TriviaEstado.DoesNotExist:
+            print "No trivia for %s" % (para,)
+            #pass
+
+            # Busca respuesta     
+            try:
+                respuesta = Respuesta.objects.get(nombre=message.lower())
+            except Respuesta.DoesNotExist:
+                print "%s does not exist" % (message,)
+                ret = "%s does not exist" % (message,)
+                return HttpResponse(ret)
+
         print "%s: %s" % (para, respuesta.mensaje)
         task = send_sms.delay(para, respuesta.mensaje)
         if task:
             print task.status
+
+        # Si es Trivia, guardar estado
+        if hasattr(respuesta, 'is_trivia') and respuesta.is_trivia:
+            estado = TriviaEstado(respuesta=respuesta, de=para)
+            estado.save()
+
         return HttpResponse(ret)

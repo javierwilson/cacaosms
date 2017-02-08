@@ -116,7 +116,8 @@ class TriviaEstado(models.Model):
 
     fecha = models.DateTimeField(auto_now_add=True)
     de = models.CharField(max_length=32, unique=True, verbose_name=u"Número de teléfono")
-    estado = models.ForeignKey('Trivia')
+    respuesta = models.ForeignKey('Respuesta')
+    trivia = models.ForeignKey('Trivia', null=True, blank=True)
 
     class Meta:
         ordering = ['fecha', 'de']
@@ -142,6 +143,10 @@ class Trivia(models.Model):
 
     def __str__(self):
         return "%s " % (self.nombre, )
+
+    def save(self, force_insert=False, force_update=False):
+        self.nombre = self.nombre.lower()
+        super(Trivia, self).save(force_insert, force_update)
 
 
 @python_2_unicode_compatible
