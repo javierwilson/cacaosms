@@ -32,7 +32,6 @@ class ReplyWebHook(View):
         ret = ''
         respuesta = None
 
-        print request.POST
         message = request.POST.get('Body')
         para = request.POST.get('From')
         if not message or not para:
@@ -46,21 +45,15 @@ class ReplyWebHook(View):
             trivia.delete()
 
         except TriviaEstado.DoesNotExist:
-            print "No trivia for %s" % (para,)
-            #pass
 
             # Busca respuesta     
             try:
                 respuesta = Respuesta.objects.get(nombre=message.lower())
             except Respuesta.DoesNotExist:
-                print "%s does not exist" % (message,)
                 ret = "%s does not exist" % (message,)
                 return HttpResponse(ret)
 
-        print "%s: %s" % (para, respuesta.mensaje)
         task = send_sms.delay(para, respuesta.mensaje)
-        if task:
-            print task.status
 
         # Si es Trivia, guardar estado
         if hasattr(respuesta, 'is_trivia') and respuesta.is_trivia:
