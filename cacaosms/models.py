@@ -171,7 +171,7 @@ class Estado(models.Model):
 class Contacto(models.Model):
 
     nombre = models.CharField(max_length=200, verbose_name=u"Nombre")
-    telefono = models.IntegerField(verbose_name=u"Teléfono")
+    telefono = models.BigIntegerField(verbose_name=u"Teléfono")
     pais = models.ForeignKey(Pais, verbose_name=u"País")
     contactotipo = models.ForeignKey('ContactoTipo', null=True, blank=True, verbose_name=u"Tipo")
     grupo = models.ManyToManyField(Grupo, verbose_name=u"Grupos")
