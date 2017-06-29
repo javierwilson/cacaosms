@@ -19,30 +19,30 @@ def send_sms_to_queue(sender, instance, **kwargs):
     else:
         when = datetime.now()
 
+    #
+    # send sms to specific users
+    #
     if instance.para:
-        print "%s: %s" % (instance.para, instance.message)
         #task = send_sms.delay(para, instance.message, from_str=instance.de, to_str=para, id_str=instance.pk)
         task = send_sms.apply_async((para, instance.message), {'from_str': instance.de, 'to_str': para, 'id_str': instance.pk}, eta=when)
 
     if instance.para_contacto:
         contact = instance.para_contacto
-        print "%s: %s" % (contact.full_number, instance.message)
         #task = send_sms.delay(contact.full_number, instance.message, from_str=instance.de, to_str=para, id_str=instance.pk)
         task = send_sms.apply_async((contact.full_number, instance.message), {'from_str': instance.de, 'to_str': para, 'id_str': instance.pk}, eta=when)
 
+    #
+    # apply / combine filters
+    #
+    contacts = Contacto.objects.all()
+    if instance.para_contactotipo:
+        contacts = Contacto.objects.filter(contactotipo=instance.para_contactotipo)
+
     if instance.para_pais:
-        contacts = Contacto.objects.filter(pais=instance.para_pais)
-        for contact in contacts:
-            print "%s: %s" % (contact.full_number, instance.message)
-            #task = send_sms.delay(contact.full_number, instance.message, from_str=instance.de, to_str=para, id_str=instance.pk)
-            task = send_sms.apply_async((contact.full_number, instance.message), {'from_str': instance.de, 'to_str': para, 'id_str': instance.pk}, eta=when)
+        contacts = contacts.filter(pais=instance.para_pais)
 
     if instance.para_grupo:
-        contacts = Contacto.objects.filter(grupo=instance.para_grupo)
-        for contact in contacts:
-            print "%s: %s" % (contact.full_number, instance.message)
-            #task = send_sms.delay(contact.full_number, instance.message, from_str=instance.de, to_str=para, id_str=instance.pk)
-            task = send_sms.apply_async((contact.full_number, instance.message), {'from_str': instance.de, 'to_str': para, 'id_str': instance.pk}, eta=when)
+        contacts =contacts.filter(grupo=instance.para_grupo)
 
-    if task:
-        print task.status
+    for contact in contacts:
+        task = send_sms.apply_async((contact.full_number, instance.message), {'from_str': instance.de, 'to_str': para, 'id_str': instance.pk}, eta=when)
